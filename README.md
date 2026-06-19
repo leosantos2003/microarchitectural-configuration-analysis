@@ -39,7 +39,9 @@ Selecionamos três parâmetros para testar gargalos específicos do processador:
 
 ### 4.1. Tamanho da Cache L1 (2kB a 16kB)
 
+<img width="675" height="450" alt="Grafico_CacheSize_IPC" src="https://github.com/user-attachments/assets/3df54e9f-7654-48cc-9937-2bc0c6487745" />
 
+<img width="675" height="450" alt="Grafico_CacheSize_Tempo" src="https://github.com/user-attachments/assets/4317c496-66c8-4661-b5d0-861e26c36d38" />
 
 #### Matrix-Mult:
 - **IPC:** Apresentou o maior ganho. Uma cache maior permite reter grupos inteiros da matriz próximas ao processador, evitando expulsões por falta de espaço. Consequentemente, a CPU sofre menos interrupções esperando dados da memória principal, reduzindo os ciclos ociosos e permitindo que o processador execute muito mais instruções úteis a cada pulso de clock.
@@ -58,7 +60,9 @@ Selecionamos três parâmetros para testar gargalos específicos do processador:
 
 ### 4.2. Associatividade da Cache L1 (1-way a 16-way)
 
+<img width="675" height="450" alt="Grafico_FetchBuffer_IPC" src="https://github.com/user-attachments/assets/73a01a1b-048b-4726-8dd3-5add766c807e" />
 
+<img width="675" height="450" alt="Grafico_Associativity_Tempo" src="https://github.com/user-attachments/assets/088e3be2-58e7-421c-b107-d49206b8ef28" />
 
 #### Matrix-Mult:
 - **IPC:** Apresentou um crescimento expressivo (de 1.01 para 1.20) ao sair do mapeamento direto (1-way) e avançar até a configuração 8-way. O aumento da associatividade resolveu misses de endereço ao permitir que múltiplos blocos mapeados para o mesmo conjunto coexistam na cache, eliminando paradas desnecessárias no processador e elevando drasticamente o IPC.
@@ -77,7 +81,9 @@ Selecionamos três parâmetros para testar gargalos específicos do processador:
 
 ### 4.3. Tamanho do Fetch Buffer (8 a 64)
 
+<img width="675" height="450" alt="Grafico_FetchBuffer_IPC" src="https://github.com/user-attachments/assets/fd0324f5-3cad-44cf-8cc3-7cf8a456c5e3" />
 
+<img width="675" height="450" alt="Grafico_FetchBuffer_Tempo" src="https://github.com/user-attachments/assets/8b1396c8-345a-4795-8e50-4dcfb175410a" />
 
 #### Matrix-Mult:
 - **IPC:** Apresentou um salto expressivo ao expandir o buffer de 8 para 32 entradas. Como a multiplicação de matrizes possui laços longos e previsíveis com alto potencial de Paralelismo em Nível de Instrução (ILP), um buffer maior garante que o processador superescalar seja alimentado continuamente com instruções úteis. Acima de 32 entradas, o ganho estagna, indicando que a limitação passou a não ser mais a busca de instruções.
@@ -93,3 +99,11 @@ Selecionamos três parâmetros para testar gargalos específicos do processador:
 
 #### Médias globais custo-benefício:
 - Dobrar a capacidade inicial de 8 para 16 entradas gerou um excelente custo-benefício, com o IPC médio saltando +8,3% (de 0.913 para 0.989) e o tempo de execução despencando proporcionalmente. Um novo dobro para 32 posições ainda entregou um ganho relevante de +3,8%, mas a saturação tornou-se evidente ao testar 64 entradas: o hardware de controle dobrou de tamanho, porém o ganho de IPC foi quase inexistente (+0,4%), formando um platô estagnado e perfeitamente reto no tempo de execução. Isso comprova que investir em uma fila gigantesca tem um péssimo custo-benefício se as unidades de execução (ALUs) ou a memória já não têm vazão para consumir tantas instruções simultâneas.
+
+## License
+
+Distributed under the MIT License. See `LICENSE.txt` for more information.
+
+## Contact
+
+Leonardo Santos - <leorsantos2003@gmail.com>
